@@ -91,7 +91,11 @@ docker compose up --build
 # frontend http://localhost:5173 · backend http://localhost:8000/docs · postgres :5432
 
 # Backend only (local)
-cd backend && pip install -r requirements.txt && uvicorn app.main:app --reload
+cd backend
+python -m venv venv
+.\venv\Scripts\Activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
 
 # Frontend only (local)
 cd frontend && npm install && npm run dev

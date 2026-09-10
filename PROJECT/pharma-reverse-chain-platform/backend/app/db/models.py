@@ -43,7 +43,7 @@ class AuditEvent(Base):
 
     __tablename__ = "audit_events"
 
-    id = Column(BigInteger, primary_key=True, index=True, autoincrement=True)
+    id = Column(BigInteger().with_variant(Integer, "sqlite"), primary_key=True, index=True, autoincrement=True)
     batch_id = Column(String(100), nullable=False, index=True)
     event_type = Column(String(100), nullable=False)
     event_data = Column(JSON, nullable=False, default=dict)
