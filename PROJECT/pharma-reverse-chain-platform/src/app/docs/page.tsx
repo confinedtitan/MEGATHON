@@ -64,7 +64,82 @@ export default function DocsPage() {
         subtitle="Endpoints, data model, cryptography, tamper-evidence guarantees, and demo guide."
       />
 
-      <div className="grid gap-3 lg:grid-cols-2">
+      <div className="mt-0 grid gap-3 lg:grid-cols-2">
+        <Card
+          title="🧱 Requested stack — where everything lives"
+          subtitle="Option B: React + Vite · FastAPI + Python · PostgreSQL · SHA-256 · Ed25519 · JWT · Docker"
+        >
+          <div className="slim-scroll overflow-x-auto rounded-xl border border-slate-200">
+            <table className="w-full min-w-[520px] text-left text-[13px]">
+              <thead>
+                <tr className="bg-slate-50 text-[11px] uppercase tracking-wide text-slate-500">
+                  <th className="px-3 py-2">Layer</th>
+                  <th className="px-3 py-2">Technology</th>
+                  <th className="px-3 py-2">Folder</th>
+                </tr>
+              </thead>
+              <tbody className="text-slate-700">
+                {[
+                  ["Frontend", "React + Vite", "frontend/"],
+                  ["UI", "Tailwind CSS", "frontend/src/"],
+                  ["Backend", "FastAPI + Python", "backend/app/"],
+                  ["Database", "PostgreSQL", "postgres + backend/init.sql"],
+                  ["Integrity", "SHA-256", "backend/app/crypto/hashchain.py"],
+                  ["Signatures", "Ed25519", "backend/app/crypto/signatures.py"],
+                  ["Authentication", "JWT", "backend/app/core/ + frontend/src/auth/"],
+                  ["File Storage", "Local filesystem", "backend storage/"],
+                  ["QR/Barcode", "Browser camera scanner", "frontend/src/components/QrScanner.tsx"],
+                  ["API", "REST", "POST /verify-batch"],
+                  ["Deployment", "Docker + Compose", "docker-compose.yml"],
+                ].map(([l, t, f]) => (
+                  <tr key={l} className="border-t border-slate-100">
+                    <td className="px-3 py-1.5 font-bold text-slate-900">{l}</td>
+                    <td className="px-3 py-1.5">{t}</td>
+                    <td className="px-3 py-1.5 font-mono text-[11px] text-slate-500">{f}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-2 text-xs text-slate-500">
+            Run the full stack with <span className="font-mono font-bold">docker compose up --build</span> →
+            frontend <span className="font-mono">:5173</span> · backend docs <span className="font-mono">:8000/docs</span>.
+            This live preview (<span className="font-mono">src/</span>) mirrors the same REST paths 1:1.
+          </p>
+        </Card>
+        <Card
+          title="📁 Folder structure — frontend + backend"
+          subtitle="Exactly as requested. See ARCHITECTURE.md for the full map."
+        >
+          <pre className="slim-scroll overflow-x-auto rounded-xl bg-slate-950 p-4 font-mono text-[11px] leading-relaxed text-slate-200">
+{`pharma-reverse-chain/
+├── docker-compose.yml      # postgres + backend + frontend
+├── backend/                # FastAPI + Python
+│   ├── app/main.py         # /health /stats /seed + routers
+│   ├── app/core/           # config · JWT security · role deps
+│   ├── app/crypto/         # canonical · SHA-256 chain · Ed25519
+│   ├── app/db/             # SQLAlchemy engine + models
+│   ├── app/schemas/        # Pydantic models
+│   ├── app/services/       # lifecycle · audit · seed
+│   ├── app/routers/        # auth · batches · audit ·
+│   │                       # verify · alerts · files
+│   ├── init.sql            # PostgreSQL DDL + indexes
+│   └── storage/            # keys/ + certificates/ (runtime)
+├── frontend/               # React + Vite + Tailwind
+│   ├── src/main.tsx · App.tsx
+│   ├── src/api/client.ts   # axios + JWT interceptors
+│   ├── src/auth/           # JWT session context
+│   ├── src/components/     # Layout · VerifyWidget ·
+│   │                       # QrScanner (camera) · badges
+│   └── src/pages/          # Login · Overview · Pharmacy ·
+│                           # Distributor · Manufacturer ·
+│                           # Regulator · AuditLedger · Timeline
+└── src/                    # live preview (same API paths)`}
+          </pre>
+        </Card>
+      </div>
+
+      <div className="mt-6 grid gap-3 lg:grid-cols-2">
         <Card title="🗄 Database schema (PostgreSQL + Drizzle)" subtitle="src/db/schema.ts — no blockchain anywhere">
           <pre className="slim-scroll overflow-x-auto rounded-xl bg-slate-950 p-4 font-mono text-[11px] leading-relaxed text-emerald-300">
 {`medicine_batches
